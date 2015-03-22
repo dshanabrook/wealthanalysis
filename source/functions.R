@@ -39,7 +39,8 @@ getCaption <- function(period, ticker="AAPL",plotCumm=T){
 	return(theString)
 }
 ClOp <-function(x, logOrArith="log") {
-	xx <- Delt(Lag(Cl(x)),Op(x), type=logOrArith)
+	print(cost)
+	xx <- Delt(Lag(Cl(x)),Op(x)-cost(), type=logOrArith)
 	#colnames(xx) <- paste("ClOp", deparse(substitute(x)), sep='.')
 	colnames(xx) <- "CloseToOpen"
 	return(xx)}
@@ -49,28 +50,28 @@ ClCl <- function(x, logOrArith="log") {
 	colnames(xx) <- "CloseToClose"
 	return(xx)
 }
-OpCl <- function(x, logOrArith="log" ){
-	xx <- Delt(Op(x),Cl(x), type=logOrArith)
+OpCl <- function(x,logOrArith="log" ){
+	xx <- Delt(Op(x),Cl(x)-cost(), type=logOrArith)
 	colnames(xx) <- "OpenToClose"
 	return(xx)
 }
 ClOpMom <- function(x){
 	xx <- ClOp(x)
 	xx[xx>0,] <-  xx[xx>0,] + OpCl(x[ClOp(x)>0,]) 
-	colnames(xx) <- "Momentum"
+	colnames(xx) <- "momentum"
 	return(xx)
 }
 ClOpRevert <- function(x){
 	xx <- ClOp(x)
 	xx[xx<0,] <-  xx[xx<0,] + OpCl(x[ClOp(x)<0,]) 
-	colnames(xx) <- "Reversion"
+	colnames(xx) <- "reversion"
 	return(xx)
 }
-shortLong <- function(x, logOrArith ="log"){
+ClOpLongOpClShort <- function(x, logOrArith ="log"){
 	long <- ClOp(x)
 	short <- OpClShort(x)
 	xx <- long[,1]+short[,1]
-	colnames(xx) <- "longNightShortDay"
+	colnames(xx) <- "short"
 	return(xx)
 }
 

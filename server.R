@@ -10,39 +10,42 @@ require(reshape2)
 source("source/functions.R")
 
 doDebug <<- F
-useWealth <- T
+useWealth <<- T
+cost <<- 0
 Sys.setenv(TZ='EST')
 shinyServer(function(input, output, session) {
 	ticker <- reactive({toupper(input$ticker)})
 	period <- reactive({input$period})
 	yearsBack <- reactive({as.numeric(input$yearsBack)})
 	dateRange <- reactive({input$dateRange})
-#	model <- reactive({input$model})
+	cost <<- reactive({as.numeric(input$cost)*2})
 	
 	tickerData <- reactive({getTickerData(ticker(), dateRange())})	
 	clcl <- reactive({ROCCl(tickerData())})
 	clcl2 <- reactive({ClCl(tickerData())})
 	clop <- reactive({ClOp(tickerData())})
-	opcl <- reactive({OpCl(tickerData())})	
+	opcl <- reactive({OpCl(tickerData())})
 	clopModel <- reactive({
 	if (input$model=="mom")
 		ClOpMom(tickerData())
-	else
+	else if(input$model=="revert")
 		ClOpRevert(tickerData())
+	else 
+		ClOpLongOpClShort(tickerData())
+		
 	})
 
-	longThenShort <- reactive({shortLong(tickerData())})
 	output$caption <-renderText({getCaption(period(),ticker())})
 	output$subCaption <- renderText({paste("Between: ",getDateStr(tickerData()))})
 	
 output$drawdownPlot <- renderPlot({
-	chart.Drawdown(cbind(clcl(),clop(),longThenShort(),clopModel()), main="Drawdown", legend.loc="topleft", colorset=c(8,1,3,4))
+	chart.Drawdown(cbind(clcl(),clop(),clopModel()), main="Drawdown", legend.loc="topleft", colorset=c(8,1,3))
 	})
 
 			
 output$cummPlot <- renderPlot({
-	chart.CumReturns(cbind(clcl(),clop(), longThenShort(),clopModel()),
-	wealth.index=useWealth, main="Cummulative return", legend.loc="topleft", colorset=c(8,1,3,4))
+	chart.CumReturns(cbind(clcl(),clop(), clopModel()),
+	wealth.index=useWealth, main="Cummulative return", legend.loc="topleft", colorset=c(8,1,3))
 	})
 	
 
