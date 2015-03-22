@@ -1,0 +1,532 @@
+summary(x)
+perc.rank <- function(x) trunc(rank(x))/length(x)
+perc.rank(x)
+x
+theAgg$rank <- perc.rank(theAgg$prop)
+theName <- theAgg[theAgg$name==theLookup,]
+theName
+theLookup <- "Mildred"
+theAgg[theAgg$name==theLookup,]
+theLookup <- "Margaret"
+theAgg[theAgg$name==theLookup,]
+x <- theAgg$prop
+head(x)
+xr <- rank(x)
+head(xr)
+length(x)
+#painful scraping#
+ library("RCurl")#
+#
+#cefURL <- readLines("http://us.allianzgi.com/Products/pages/PlCEF.aspx?Level1=ulProducts&Center=ulProducts&Level2=liulProductsClosedEndFunds")#
+pimcoURL <- "https://investments.pimco.com/Products/Pages/PlCEF.aspx"#
+#cef <- readLines(cefURL)#
+pimco  <- getURLContent(pimcoURL)#
+#
+pimco <- unlist(strsplit(pimco,"\r\n"))#
+#replace " _ " with zeros#
+pimco2 <- sub(">-<.",">0.0%",pimco)#
+pimco3 <- gsub("0%.*", "0%", pimco2)
+head(pimco3)
+percentLines <- grep(">-?[0-9\\.\\0-9]*%",pimco3)
+head(percentLines)
+pl <- pimco3[percentLines]
+pl
+write(pimco3,"pimco3")
+dollarLines <- grep("\$[0-9\\.\\0-9]*",pimco3)
+dollarLines <- grep("$[0-9\\.\\0-9]*",pimco3)
+dollarLines
+dollarLines <- grep("\\$[0-9\\.\\0-9]*",pimco3)
+dolllarLines
+dollarLines
+dl <- pimco3[dollarLines]
+dl
+dollarLines <- grep("\\$[0-9\\.\\0-9]*",pimco3)
+pimcoURL <- "https://investments.pimco.com/Products/Pages/PlCEF.aspx"#
+#cef <- readLines(cefURL)#
+pimco  <- getURLContent(pimcoURL)#
+#
+pimco <- unlist(strsplit(pimco,"\r\n"))#
+#replace " _ " with zeros#
+pimco2 <- sub(">-<.",">0.0%",pimco)#
+pimco3 <- gsub("0%.*", "0%", pimco2)#
+percentLines <- grep(">-?[0-9\\.\\0-9]*%",pimco3)#
+dollarLines <- grep("\\$[0-9\\.\\0-9]*",pimco3)
+#painful scraping#
+ library("RCurl")#
+#
+#cefURL <- readLines("http://us.allianzgi.com/Products/pages/PlCEF.aspx?Level1=ulProducts&Center=ulProducts&Level2=liulProductsClosedEndFunds")#
+pimcoURL <- "https://investments.pimco.com/Products/Pages/PlCEF.aspx"#
+#cef <- readLines(cefURL)#
+pimco  <- getURLContent(pimcoURL)#
+#
+pimco <- unlist(strsplit(pimco,"\r\n"))#
+#replace " _ " with zeros#
+pimco2 <- sub(">-<.",">0.0%",pimco)#
+pimco3 <- gsub("0%.*", "0%", pimco2)#
+percentLines <- grep(">-?[0-9\\.\\0-9]*%",pimco3)#
+dollarLines <- grep("\\$[0-9\\.\\0-9]*",pimco3)
+pl <- pimco3[percentLines]#
+dl <- pimco3[dollarLines]
+dl
+devtools::install_github("rstudio/shiny")
+library(shiny)#
+library(shinyapps)#
+setwd("~/ShinyApps")
+runApp("openinterest")
+runApp("wealthanalysis")
+help(ggplot)
+ggplot(c(1,2,3))
+df <- data.frame(gp = factor(rep(letters[1:3], each = 10)),#
+                 y = rnorm(30))#
+# Compute sample mean and standard deviation in each group#
+library(plyr)#
+ds <- ddply(df, .(gp), summarise, mean = mean(y), sd = sd(y))#
+#
+# Declare the data frame and common aesthetics.#
+# The summary data frame ds is used to plot#
+# larger red points in a second geom_point() layer.#
+# If the data = argument is not specified, it uses the#
+# declared data frame from ggplot(); ditto for the aesthetics.#
+x <-ggplot(df, aes(x = gp, y = y)) +#
+   geom_point() +#
+   geom_point(data = ds, aes(y = mean),#
+              colour = 'red', size = 3)
+x
+summary(x)
+runApp("openinterest")
+deployApp("openinterest")
+#######  @ Argimiro Arratia, 2014,   NNET and SVM modeling#
+###### http://computationalfinance.lsi.upc.edu#
+wdir="~/the path to the data"#
+setwd(wdir)#
+########Visual Test of normality##################
+require(quantmod)#
+appl = readRDS("AAPL.rds")
+require(quantmod)
+appl = readRDS("AAPL.rds")
+apRd= periodReturn(appl,period="daily")
+apRd= periodReturn(AAPL,period="daily")
+rm(list=ls())#
+library(shiny)#
+library(quantmod)#
+library(ggplot2)#
+library(PerformanceAnalytics)#
+require(reshape2)#
+setwd("~/ShinyApps/wealthAnalysis")#
+source("source/functions.R")#
+#
+doDebug <<- F#
+Sys.setenv(TZ='EST')
+source("../periodAnalysis/source/functions.R")
+getData
+getTickerData
+ticker <- "AAPL"#
+getSymbols(ticker, src="yahoo", from="1900-01-01")
+tickerVar <- get(ticker)
+tickerVar
+ticker
+get
+tickerData <- get(ticker)
+head(tickerData)
+tickerOHLC <- get(ticker)
+getTickerData
+tickerOHLC <- adjustOHLC(tickerOHLC)
+tickerOHLC <- get(ticker)#
+tickerOHLC <- adjustOHLC(tickerOHLC)
+tickerOHLC <- adjustOHLC(tickerOHLC, symbol.name=ticker)
+getData
+dowRange <- 1:5
+dow <- c("Mon","Tue","Wed","Thu","Fri")
+freq<-factor(.indexwday(tickerOHLC), dowRange,labels=dow, ordered=T)
+head(freq)
+head(.indexwday(tickerOHLC))
+head(tickerOHLC)
+head(freq)
+x <- cbind(tickerOHLC, freq)
+head(x)
+names(freq) <- "dow"
+head(freq)
+freq$dow
+names(x)
+names(x[,-1])
+names(x[,7])
+freq2 <- cbind(tickerOHLC, freq)
+ncol(freq2)
+tickerOHLC <- adjustOHLC(tickerOHLC, symbol.name=ticker)
+dowRange <- 1:5#
+dow <- c("Mon","Tue","Wed","Thu","Fri")#
+x<-factor(.indexwday(tickerOHLC), dowRange,labels=dow, ordered=T)#
+xx <- cbind(x, freq)#
+names(xx[,ncol(xx)]) <- "dow"
+head(xx)
+x<-factor(.indexwday(tickerOHLC), dowRange,labels=dow, ordered=T)#
+xx <- cbind(tickerOHLC, x)
+names(xx[,ncol(xx)]) <- "dow"
+head(xx)
+x <- head(x)
+xx <- cbind(tickerOHLC, x)
+xx
+y <- head(tickerOHLC)#
+dowRange <- 1:5#
+dow <- c("Mon","Tue","Wed","Thu","Fri")#
+x<-factor(.indexwday(y), dowRange,labels=dow, ordered=T)#
+x <- head(x)#
+xx <- cbind(tickerOHLC, x)#
+names(xx[,ncol(xx)]) <- "dow"
+y
+x
+xx <- cbind(y, x)
+y
+xx
+y$dow<-factor(.indexwday(y), dowRange,labels=dow, ordered=T)
+y
+summary(y$dow)
+help(factor)
+.indexwday(y)
+dowRange
+dow
+dowRange <- 0:4
+class(y$dow)
+.indesxwday(y[1])
+.indexwday(y[1])
+x <- ("1, 2, 3, 4")
+as.numeric(x)
+type.convert(x)
+daysToKeep="1,2,3,4,5"
+data <- y
+data <- y$dow
+data <- y
+y
+theDays <- type.convert(daysToKeep)
+theDays
+data$dow in theDays
+class(theDays)
+theDays
+daysToKeep=c(1,2,3,4,5)
+data <- subset(data, data$dow in theDays)
+theDays
+daysToKeep
+data$dow in daysToKeep
+data$dow %in% daysToKeep
+data <- subset(data, data$dow %in% daysToKeep)
+daysToKeep <- c(1,2)
+subset(data, data$dow %in% daysToKeep)
+keepDays <- function(tickerOHLX, daysToKeep=c(1,2,3,4,5)) {#
+	x <- subset(data, data$dow %in% daysToKeep)	#
+	return(x)#
+}
+keepDays <- function(tickerOHLC, daysToKeep=c(1,2,3,4,5)) {#
+	x <- subset(data, tickerOHLC$dow %in% daysToKeep)	#
+	return(x)#
+}
+keepDays(tickerOHLC, c(1,2))
+keepDays <- function(tickerOHLC, daysToKeep=c(1,2,3,4,5)) {#
+	x <- subset(tickerOHLC, tickerOHLC$dow %in% daysToKeep)	#
+	return(x)#
+}
+keepDays(tickerOHLC, c(1,2))
+tickerOHLC
+addDOW <- function(tickerOHLC){#
+y <- head(tickerOHLC)#
+dowRange <- 0:4#
+dow <- c("Mon","Tue","Wed","Thu","Fri")#
+y$dow<-factor(.indexwday(y), dowRange,labels=dow, ordered=T)#
+return(y)#
+}
+tickerOHLC <- addDOW(tickerOHLC)
+x <- keepDays(tickerOHLC, c(1,2))
+tickerOHLC
+x
+tickerOHLC <- get(ticker)#
+tickerOHLC <- adjustOHLC(tickerOHLC, symbol.name=ticker)#
+tickerOHLC <- addDOW(tickerOHLC)#
+tickerClOp <- ClOp(tickerOHLC)#
+tickerMT <- keepDays(tickerClOp, c(1,2))
+tickerMT
+ClOp(tickerOHLC)
+keepDays <- function(tickerOHLC, daysToKeep=c(1,2,3,4,5)) {#
+	x <- subset(tickerOHLC, .indexwday(tickerOHLC) %in% daysToKeep)	#
+	return(x)#
+}
+tickerOHLC <- get(ticker)#
+tickerOHLC <- adjustOHLC(tickerOHLC, symbol.name=ticker)#
+#tickerOHLC <- addDOW(tickerOHLC)#
+tickerClOp <- ClOp(tickerOHLC)#
+tickerMT <- keepDays(tickerClOp, c(1,2))
+head(tickerMT)
+mon<-1;tue<-2;wed<-3;thu<-4;fri<-5
+tickerMT <- keepDays(tickerClOp, c(mon,tue))
+help(CumReturns)
+??CumReturns
+help(cumsum)
+chart.CumReturns
+x <- chart.CumReturns(tickerMT)
+x <- chart.CumReturns(tickerMT)
+summary(x)
+summary(chart.CumReturns(tickerMT))
+return.cummulative(tickerMT)
+??return.cummulative
+Return.cummulative(tickerMT)
+Return.cumulative(tickerMT)
+help(Return.cumulative)
+Return.annualized(tickerMT)
+Return.cumulative(keepDays(tickerClOp, c(mon,tue)))#
+Return.cumulative(keepDays(tickerClOp, c(tues,wed)))#
+Return.cumulative(keepDays(tickerClOp, c(fri,mon)))#
+Return.cumulative(keepDays(tickerClOp, c(wed,thur)))#
+Return.cumulative(keepDays(tickerClOp, c(wed,thur,fri)))#
+Return.cumulative(keepDays(tickerClOp, c(mon,tue,wed)))
+Return.cumulative(keepDays(tickerClOp, c(mon,tue)))#
+Return.cumulative(keepDays(tickerClOp, c(tue,wed)))#
+Return.cumulative(keepDays(tickerClOp, c(fri,mon)))#
+Return.cumulative(keepDays(tickerClOp, c(wed,thu)))#
+Return.cumulative(keepDays(tickerClOp, c(wed,thu,fri)))#
+Return.cumulative(keepDays(tickerClOp, c(mon,tue,wed)))
+Return.cumulative(keepDays(tickerClOp, c(mon,tue,wed,thu)))
+Return.cumulative(keepDays(tickerClOp, c(mon,tue,wed, thu, fri)))
+ticker <- "AAPL"#
+getSymbols(ticker, src="yahoo", from="2013-01-01")#
+tickerOHLC <- get(ticker)#
+tickerOHLC <- adjustOHLC(tickerOHLC, symbol.name=ticker)#
+tickerClOp <- ClOp(tickerOHLC)#
+Return.cumulative(keepDays(tickerClOp, c(mon)))#
+Return.cumulative(keepDays(tickerClOp, c(mon,tue)))#
+Return.cumulative(keepDays(tickerClOp, c(wed,thu,fri)))#
+Return.cumulative(keepDays(tickerClOp, c(mon,tue,wed)))#
+Return.cumulative(keepDays(tickerClOp, c(mon,tue,wed,thu)))#
+Return.cumulative(keepDays(tickerClOp, c(mon,tue,wed, thu, fri)))
+.indexwday(tickerOHLC)
+keepDays <- function(tickerOHLC, daysToKeep=c(1,2,3,4,5)) {#
+	daysToKeep <- daysToKeep-1#
+	x <- subset(tickerOHLC, .indexwday(tickerOHLC) %in% daysToKeep)	#
+	return(x)#
+}
+Return.cumulative(keepDays(tickerClOp, c(mon)))#
+Return.cumulative(keepDays(tickerClOp, c(mon,tue)))#
+Return.cumulative(keepDays(tickerClOp, c(wed,thu,fri)))#
+Return.cumulative(keepDays(tickerClOp, c(mon,tue,wed)))#
+Return.cumulative(keepDays(tickerClOp, c(mon,tue,wed,thu)))#
+Return.cumulative(keepDays(tickerClOp, c(mon,tue,wed, thu, fri)))
+keepDays <- function(tickerOHLC, daysToKeep=c(0,1,2,3,4)) {#
+	daysToKeep <- daysToKeep+#
+	x <- subset(tickerOHLC, .indexwday(tickerOHLC) %in% daysToKeep)	#
+	return(x)#
+}
+Return.cumulative(keepDays(tickerClOp, c(mon)))#
+Return.cumulative(keepDays(tickerClOp, c(mon,tue)))#
+Return.cumulative(keepDays(tickerClOp, c(wed,thu,fri)))#
+Return.cumulative(keepDays(tickerClOp, c(mon,tue,wed)))#
+Return.cumulative(keepDays(tickerClOp, c(mon,tue,wed,thu)))#
+Return.cumulative(keepDays(tickerClOp, c(mon,tue,wed, thu, fri)))
+keepDays <- function(tickerOHLC, daysToKeep=c(0,1,2,3,4)) {#
+	daysToKeep <- daysToKeep+1#
+	x <- subset(tickerOHLC, .indexwday(tickerOHLC) %in% daysToKeep)	#
+	return(x)#
+}
+Return.cumulative(keepDays(tickerClOp, c(mon)))#
+Return.cumulative(keepDays(tickerClOp, c(mon,tue)))#
+Return.cumulative(keepDays(tickerClOp, c(wed,thu,fri)))#
+Return.cumulative(keepDays(tickerClOp, c(mon,tue,wed)))#
+Return.cumulative(keepDays(tickerClOp, c(mon,tue,wed,thu)))#
+Return.cumulative(keepDays(tickerClOp, c(mon,tue,wed, thu, fri)))
+.indexwday(tickerOHLC)
+keepDays <- function(tickerOHLC, daysToKeep=c(1,2,3,4,5)) {#
+	daysToKeep <- daysToKeep-1#
+	x <- subset(tickerOHLC, .indexwday(tickerOHLC) %in% daysToKeep)	#
+	return(x)#
+}
+daysToKeep
+Return.cumulative(keepDays(tickerClOp, c(mon)))#
+Return.cumulative(keepDays(tickerClOp, c(mon,tue)))#
+Return.cumulative(keepDays(tickerClOp, c(wed,thu,fri)))#
+Return.cumulative(keepDays(tickerClOp, c(mon,tue,wed)))#
+Return.cumulative(keepDays(tickerClOp, c(mon,tue,wed,thu)))#
+Return.cumulative(keepDays(tickerClOp, c(mon,tue,wed, thu, fri)))
+print(daysToKeep)
+keepDays <- function(tickerOHLC, daysToKeep=c(1,2,3,4,5)) {#
+	daysToKeep <- daysToKeep-1#
+	print(daysToKeep)#
+	x <- subset(tickerOHLC, .indexwday(tickerOHLC) %in% daysToKeep)	#
+	return(x)#
+}
+Return.cumulative(keepDays(tickerClOp, c(mon)))#
+Return.cumulative(keepDays(tickerClOp, c(mon,tue)))#
+Return.cumulative(keepDays(tickerClOp, c(wed,thu,fri)))#
+Return.cumulative(keepDays(tickerClOp, c(mon,tue,wed)))#
+Return.cumulative(keepDays(tickerClOp, c(mon,tue,wed,thu)))#
+Return.cumulative(keepDays(tickerClOp, c(mon,tue,wed, thu, fri)))
+.indexwday(tickerOHLC)
+indexwday(tickerOHLC) %in% daysToKeep
+.indexwday(tickerOHLC) %in% daysToKeep
+tickerOHLC
+daysToKeep
+x <- subset(tickerOHLC, .indexwday(tickerOHLC) %in% daysToKeep)
+x
+tickerClOp
+keepDays <- function(data, daysToKeep=c(1,2,3,4,5)) {#
+	daysToKeep <- daysToKeep-1#
+	print(daysToKeep)#
+	x <- subset(data, .indexwday(data) %in% daysToKeep)	#
+	return(x)#
+}
+data <- tickerClOp
+daysToKeep <- daysToKeep-1
+daysToKeep
+x <- subset(data, .indexwday(data) %in% daysToKeep)
+x
+.indexwday(data)
+nrow(tickerClOp)
+nrow(tickerOHLC)
+.indexway(tickerOHLC)
+.indexwday(tickerOHLC)
+.indexwday(tickerClOp)
+keepDays(tickerClOp, c(mon)
+)
+Return.cumulative
+Return.cumulative(keepDays(tickerClOp, c(mon)))
+Return.cumulative(keepDays(tickerClOp, c(mon)), geometric=F)
+chart.CumReturns(keepDays(tickerClOp, c(mon)))#
+chart.CumReturns(keepDays(tickerClOp, c(mon,tue)))#
+chart.CumReturns(keepDays(tickerClOp, c(wed,thu,fri)))#
+chart.CumReturns(keepDays(tickerClOp, c(mon,tue,wed)))#
+chart.CumReturns(keepDays(tickerClOp, c(mon,tue,wed,thu)))#
+chart.CumReturns(keepDays(tickerClOp, c(mon,tue,wed, thu, fri)))
+getSymbols(ticker, src="yahoo", from="2013-01-01",to="2014-02-03")#
+tickerOHLC <- get(ticker)#
+tickerOHLC <- adjustOHLC(tickerOHLC, symbol.name=ticker)#
+tickerClOp <- ClOp(tickerOHLC)#
+data <- tickerClOp#
+Return.cumulative(keepDays(tickerClOp, c(mon)))#
+Return.cumulative(keepDays(tickerClOp, c(mon,tue)))#
+Return.cumulative(keepDays(tickerClOp, c(wed,thu,fri)))#
+Return.cumulative(keepDays(tickerClOp, c(mon,tue,wed)))#
+Return.cumulative(keepDays(tickerClOp, c(mon,tue,wed,thu)))#
+Return.cumulative(keepDays(tickerClOp, c(mon,tue,wed, thu, fri)))#
+chart.CumReturns(keepDays(tickerClOp, c(mon)))#
+chart.CumReturns(keepDays(tickerClOp, c(mon,tue)))#
+chart.CumReturns(keepDays(tickerClOp, c(wed,thu,fri)))#
+chart.CumReturns(keepDays(tickerClOp, c(mon,tue,wed)))#
+chart.CumReturns(keepDays(tickerClOp, c(mon,tue,wed,thu)))#
+chart.CumReturns(keepDays(tickerClOp, c(mon,tue,wed, thu, fri)))
+head(tickerClOp)
+help(.indexwday)
+shinyapps::showLogs("openinterest")
+help(for)
+help("for")
+x <- c(1,2)
+x <- append(x,3)
+x
+print(days)
+days <- NULL
+print(days)
+for (i in dow){#
+	print(days)#
+	Return.cumulative(keepDays(tickerClOp, i))#
+	days <- append(days,i) #
+}
+days <- NULL#
+for (i in dow){#
+	days <- append(days,i)#
+	print(days)#
+	Return.cumulative(keepDays(tickerClOp, i)) #
+}
+dow <- c(1,2,3,4,5)
+days <- NULL
+for (i in dow){#
+	days <- append(days,i)#
+	print(days)#
+	Return.cumulative(keepDays(tickerClOp, i)) #
+}
+dow <- c(1,2,3,4,5)#
+days <- NULL#
+for (i in dow){#
+	days <- append(days,i)#
+#	print(days)#
+	Return.cumulative(keepDays(tickerClOp, i)) #
+}
+keepWDay <- function(data, daysToKeep=c(1,2,3,4,5)) {#
+	daysToKeep <- daysToKeep-1#
+	print(daysToKeep)#
+	x <- subset(data, .indexwday(data) %in% daysToKeep)	#
+	return(x)#
+}
+keepMDay <- function(data, daysToKeep=c(1:31)){#
+	print(daysToKeep)#
+	x <- subset(data, .indexmday(data) %in% daysToKeep)	#
+	return(x)#
+}
+for (i in dow){#
+	days <- append(days,i)#
+#	print(days)#
+	Return.cumulative(keepWDay(tickerClOp, i)) #
+}
+Sys.setenv(TZ='EST')#
+ticker <- "AAPL"#
+getSymbols(ticker, src="yahoo", from="2013-01-01",to="2014-02-03")#
+tickerOHLC <- get(ticker)#
+tickerOHLC <- adjustOHLC(tickerOHLC, symbol.name=ticker)#
+tickerClOp <- ClOp(tickerOHLC)#
+data <- tickerClOp
+for (i in dow){#
+	days <- append(days,i)#
+#	print(days)#
+	Return.cumulative(keepWDay(tickerClOp, i)) #
+}
+head(tickerClOp)
+head(tickerOHLC)
+.indexwday(tickerOHLC)
+Sys.setenv(TZ='EST')
+.indexwday(tickerOHLC)
+ticker <- "GMT"
+getSymbols(ticker, src="yahoo", from="2013-01-01",to="2014-02-03")#
+tickerOHLC <- get(ticker)#
+tickerOHLC <- adjustOHLC(tickerOHLC, symbol.name=ticker)
+.indexwday(tickerOHLC)
+ticker <- "PST"
+getSymbols(ticker, src="yahoo", from="2013-01-01",to="2014-02-03")#
+tickerOHLC <- get(ticker)#
+tickerOHLC <- adjustOHLC(tickerOHLC, symbol.name=ticker)#
+tickerClOp <- ClOp(tickerOHLC)
+.indexwday(tickerOHLC)
+tickerOHLC <- get(ticker)#
+tickerOHLC <- adjustOHLC(tickerOHLC, symbol.name=ticker)#
+tickerClOp <- ClOp(tickerOHLC)#
+data <- tickerClOp#
+dow <- c(1,2,3,4,5)#
+days <- NULL#
+for (i in dow){#
+	days <- append(days,i)#
+#	print(days)#
+	return <- Return.cumulative(keepWDay(tickerClOp, i)) #
+	print(return)#
+}
+tickerOHLC <- get(ticker)#
+tickerOHLC <- adjustOHLC(tickerOHLC, symbol.name=ticker)#
+tickerClOp <- ClOp(tickerOHLC)#
+data <- tickerClOp#
+dow <- c(1,2,3,4,5)#
+days <- NULL#
+for (i in dow){#
+	days <- append(days,i)#
+	print(days)#
+	return <- Return.cumulative(keepWDay(tickerClOp, days)) #
+	print(return)#
+}
+keepWDay <- function(data, daysToKeep=c(1,2,3,4,5)) {#
+	daysToKeep <- daysToKeep-1#
+#	print(daysToKeep)#
+	x <- subset(data, .indexwday(data) %in% daysToKeep)	#
+	return(x)#
+}
+tickerOHLC <- get(ticker)#
+tickerOHLC <- adjustOHLC(tickerOHLC, symbol.name=ticker)#
+tickerClOp <- ClOp(tickerOHLC)#
+data <- tickerClOp#
+dow <- c(1,2,3,4,5)#
+days <- NULL#
+for (i in dow){#
+	days <- append(days,i)#
+	print(days)#
+	return <- Return.cumulative(keepWDay(tickerClOp, days)) #
+	print(return)#
+}
