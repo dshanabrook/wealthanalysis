@@ -6,21 +6,7 @@ library(ggplot2)
 library(PerformanceAnalytics)
 require(reshape2)
 setwd("~/ShinyApps/wealthAnalysis")
-source("source/functions.R")
-ticker <- "AAPL"
-yearsBack <- 3
-#getTickerTimeAdj
-dateRange <- c("2015-01-01","2015-04-01")
-tickerData <- getTickerData(ticker, dateRange,yearsBack)
-clop <- ClOp(tickerData)
-opop <- OpOp(tickerData)
-Return.cumulative(clop)
-Return.cumulative(opop)
-Return.cumulative(ClOpMom(tickerData)$mod)
-Return.cumulative(ClOpRevert(tickerData)$mod)
-
-
-
+source("../periodAnalysis/source/functions.R")
 mon<-1;tue<-2;wed<-3;thu<-4;fri<-5
 doDebug <<- F
 Sys.setenv(TZ='')

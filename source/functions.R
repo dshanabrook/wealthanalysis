@@ -54,7 +54,18 @@ OpCl <- function(x, logOrArith="log" ){
 	colnames(xx) <- "OpenToClose"
 	return(xx)
 }
-
+ClOpMom <- function(x){
+	xx <- ClOp(x)
+	xx[xx>0,] <-  xx[xx>0,] + OpCl(x[ClOp(x)>0,]) 
+	colnames(xx) <- "Momentum"
+	return(xx)
+}
+ClOpRevert <- function(x){
+	xx <- ClOp(x)
+	xx[xx<0,] <-  xx[xx<0,] + OpCl(x[ClOp(x)<0,]) 
+	colnames(xx) <- "Reversion"
+	return(xx)
+}
 shortLong <- function(x, logOrArith ="log"){
 	long <- ClOp(x)
 	short <- OpClShort(x)
@@ -87,30 +98,15 @@ getTickerData <- function(ticker="AAPL",dateRange, yearsBack=0.1){
 	 return(tickerData)	
 }
 
-#not used:
-# getData <-function(ticker="AAPL",period="DayOfWeek", yearsBack=0.1, afterHours=F){
-	# Sys.setenv(TZ='UTC');
-	# dowRange <- 1:5
-	# dow <- c("Mon","Tue","Wed","Thu","Fri")
-    # moy<-c("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")
-	# tickerData <- getTickerData(ticker, yearsBack)
-	 
-	# if (afterHours) {
-	 	# freq<-factor(.indexwday(tickerData), dowRange,labels=dow, ordered=T)
-		# mydf <- data.frame(per=freq,ClOp(tickerData))
-	# }else if (period=="DayOfWeek"){
-		# freq<-factor(.indexwday(tickerData), dowRange,labels=dow, ordered=T)
-		# mydf <- data.frame(per=freq,ROCCl(tickerData))
-	# }else if (period=="MonthOfYear"){
-		# mondf <- monthlyReturn(tickerData)
-		# monthly<-factor(.indexmon(mondf),levels=0:11,labels= moy, ordered=T)
-		# mydf <- data.frame(per=monthly, mondf)
-		# }
-	# mdat<- melt(mydf)
-	# mdat$value <- mdat$value*100
-	# rownames(mdat) <- rownames(mydf)
-	# return(mdat)	
-	# }
+x <- data.frame(c(1:5,-1:-5),c(1:10))
+names(x) <- c("clop", "opcl")
+attach(x)
+x[x$clop>0,]$clop <- x[x$clop>0,]$clop+x[x$clop>0,]$opcl
+#it just duplicates clop, then adds opcl when it is positive
+
+
+
+
 	
 
 	

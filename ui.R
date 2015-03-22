@@ -1,7 +1,7 @@
 #Copyright (c) 2013 david hilton shanabrook. All rights reserved. 
 #library(shinyIncubator)
 	
-
+models <- c("Momentum"="mom","Revert"="revert")
 shinyUI(
   pageWithSidebar(
     headerPanel("Wealth index"),  
@@ -11,6 +11,7 @@ shinyUI(
 #    dateRangeInput("dates", label = h3("Date range")),
     dateRangeInput("dateRange", "Date range:",
                start = "2012-01-01",end=NULL, format="yyyy-mm-dd", separator="/",startview="year"),
+    selectInput("model", "Model:", models),
     helpText("Set the ticker symbol, number of years back to analyze, and whether to analyze by day or week.  After hours trading: change from previous day close to open."),
     submitButton("Plot Now")
     ),

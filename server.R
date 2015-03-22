@@ -17,22 +17,31 @@ shinyServer(function(input, output, session) {
 	period <- reactive({input$period})
 	yearsBack <- reactive({as.numeric(input$yearsBack)})
 	dateRange <- reactive({input$dateRange})
+#	model <- reactive({input$model})
+	
 	tickerData <- reactive({getTickerData(ticker(), dateRange())})	
 	clcl <- reactive({ROCCl(tickerData())})
 	clcl2 <- reactive({ClCl(tickerData())})
 	clop <- reactive({ClOp(tickerData())})
 	opcl <- reactive({OpCl(tickerData())})	
+	clopModel <- reactive({
+	if (input$model=="mom")
+		ClOpMom(tickerData())
+	else
+		ClOpRevert(tickerData())
+	})
+
 	longThenShort <- reactive({shortLong(tickerData())})
 	output$caption <-renderText({getCaption(period(),ticker())})
 	output$subCaption <- renderText({paste("Between: ",getDateStr(tickerData()))})
 	
 output$drawdownPlot <- renderPlot({
-	chart.Drawdown(cbind(clcl(),clop(),longThenShort()), main="Drawdown", legend.loc="topleft", colorset=c(8,1,3))
+	chart.Drawdown(cbind(clcl(),clop(),longThenShort(),clopModel()), main="Drawdown", legend.loc="topleft", colorset=c(8,1,3,4))
 	})
 
 			
 output$cummPlot <- renderPlot({
-	chart.CumReturns(cbind(clcl(),clop(), longThenShort()),
+	chart.CumReturns(cbind(clcl(),clop(), longThenShort(),clopModel()),
 	wealth.index=useWealth, main="Cummulative return", legend.loc="topleft", colorset=c(8,1,3,4))
 	})
 	
