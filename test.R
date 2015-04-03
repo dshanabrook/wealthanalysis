@@ -6,7 +6,43 @@ library(ggplot2)
 library(PerformanceAnalytics)
 require(reshape2)
 setwd("~/ShinyApps/wealthAnalysis")
-source("../periodAnalysis/source/functions.R")
+source("source/functions.R")
+#cost <- function(){return(0)}
+ticker <- "AAPL"
+yearsBack <- 3
+doDebug<<-T
+
+#getTickerTimeAdj
+dateRange <- c("2015-01-01","2015-04-01")
+tickerData <- getTickerData(ticker, dateRange,yearsBack)
+tickerData <- head(tickerData,7)
+modelB <- ClOp(tickerData)
+
+chart.CumReturns(model)
+par("usr")
+goodDayNoNight(tickerData,model)
+badDayNoNight(tickerData,model)
+goodNightBuyDay(tickerData,model)
+badDayNoNight(tickerData,model)
+goodNightSellDay(tickerData,model)
+
+clclB <- ROCCl(tickerData)
+clopB <- ClOp(tickerData)
+clop <- ClOp(tickerData)
+opop <- OpOp(tickerData)
+Return.cumulative(clop)
+Return.cumulative(opop)
+Return.cumulative(ClOpMom(tickerData)$mod)
+Return.cumulative(ClOpRevert(tickerData)$mod)
+
+	chart.CumReturns(cbind(clclB,clopB, modelB),,main="Cummulative return", wealth.index =TRUE,legend.loc="topleft", colorset=c(8,1,3), ylim=NULL)
+
+
+
+
+keepDays <- c("Mon","Wed","Fri")
+x <- keepDaysF(tickerData, keepDays)
+
 mon<-1;tue<-2;wed<-3;thu<-4;fri<-5
 doDebug <<- F
 Sys.setenv(TZ='')
@@ -39,8 +75,6 @@ chart.CumReturns(keepDays(tickerClOp, c(mon,tue,wed, thu, fri)))
 
 Return.annualized(tickerMT)
 chart.CumReturns(tickerMT)
-
-mdat <- getData(ticker, period, yearsBack, afterHours)
 
 
 period <- "DayOfWeek"
