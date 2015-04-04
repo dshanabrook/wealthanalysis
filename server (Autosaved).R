@@ -25,7 +25,7 @@ shinyServer(function(input, output, session) {
 	clop <- reactive({ClOp(tickerData(), cost())})
 	opcl <- reactive({OpCl(tickerData(), cost())})
 	theYLim <- reactive({input$ylimFix})
-
+	graphType <- reactive({input$graphType})
 	model <- reactive({
 	if (input$downDayNoNight)
 		downDayNoNightF(tickerData(), clop())
@@ -43,17 +43,17 @@ shinyServer(function(input, output, session) {
 	modelB <- reactive({keepDaysF(model(),input$keepDays)})
 	clopB <-  reactive({keepDaysF(clop(), input$keepDays)})	
 	clclB <-  reactive({keepDaysF(clcl(), input$keepDays)})	
-	 theYlim <- reactive({getylim(input$upylim)}) 	
+	 theYlim <- reactive({getylim(input$upylim)}) 
 	 
-	output$caption <-renderText({getCaption(period(),ticker())})
-	output$subCaption <- renderText({paste("Between: ",getDateStr(tickerData()))})
+#	output$caption <-renderText({getCaption(period(),ticker())})
+#	output$subCaption <- renderText({paste("Between: ", getDateStr(tickerData()))})
 	
-#to get the upper ylim use x<-par("usr"); x[4]
-output$drawdownPlot <- renderPlot({
-	chart.Drawdown(cbind(clcl(),clopB(),modelB()), main="Drawdown", legend.loc="topleft", colorset=c(8,1,3), ylim=theYlim() )})	
-		
-output$cummPlot <- renderPlot({
-	chart.CumReturns(cbind(clclB(),clopB(), modelB()), wealth.index=useWealth, main="Cummulative return", legend.loc="topleft", colorset=c(8,1,3), ylim=theYlim())
+#to get the upper ylim use x<-par("usr"); x[4]		
+output$thePlot <- renderPlot({
+	switch(graphType(),
+		"cumm" = chart.CumReturns(cbind(clclB(),clopB(), modelB()), wealth.index=useWealth, main="Cummulative return", legend.loc="topleft", colorset=c(8,1,3), ylim=theYlim()),
+		"draw" = chart.Drawdown(cbind(clcl(),clopB(),modelB()), main="Drawdown", legend.loc="topleft", colorset=c(8,1,3), ylim=theYlim())
+		)
 	})
 })
 

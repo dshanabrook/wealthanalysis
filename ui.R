@@ -8,7 +8,13 @@ shinyUI(fluidPage(
 
 	fluidRow(
 	hr(),
-	plotOutput("cummPlot"),
+#	column(6,
+		# h3(textOutput("caption"))
+		# ),
+	# column(6,
+		# h5(textOutput("subCaption"))
+		# ),
+	plotOutput("thePlot"),
 	column(3,
 		h4("Stock"),
 		textInput("ticker","Stock symbol:", value="AAPL"),	
@@ -19,8 +25,8 @@ shinyUI(fluidPage(
     	h4("Time Period"),
    		dateRangeInput("dateRange", "Date range:", start="2012-01-01", end=NULL, format="yyyy-mm-dd", separator="/",startview="year"),
 		checkboxGroupInput("keepDays", "days to keep", dow, selected=dow, inline =T),
-		radioButtons("cummOrDraw",label="",
-        choices = list("cummulative return" = "cumm", "drawdown" = "draw"),selected = 1)),
+		radioButtons("graphType",label="",
+        choices = list("cummulative return" = "cumm", "drawdown" = "draw"),selected = "cumm")),
 	column(3, offset=1,
 		h4("Model"),
 		checkboxInput("downDayNoNight", "up day buy night",  value=F),
