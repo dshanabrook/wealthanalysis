@@ -152,6 +152,27 @@ getTickerData <- function(ticker="AAPL",dateRange, yearsBack=0.1){
 	 return(tickerData)	
 }
 
+
+# getylimOld <- function(ylimfix, m1, m2, m3){
+	# m1 <- Return.cumulative(m1)
+ 	# if (is.null(ylimfix))
+		# theYlim  <-  NULL
+	# else
+		# theYlim <-  c(min(m1,m2,m3,na.rm=T), max(m1,m2,m3, na.rm=T))
+	# if (doDebug) cat(theYlim)
+	# return(theYlim)
+	# }
+	
+getylim <- function(x){
+	if (doDebug) cat(x)
+ 	if (is.na(x))
+ 		x <- NULL
+ 	else
+		x <-  c(1,x)
+	if (doDebug) cat(x)
+	return(x)
+	}
+
 # x <- data.frame(c(1:5,-1:-5),c(1:10))
 # names(x) <- c("clop", "opcl")
 # attach(x)

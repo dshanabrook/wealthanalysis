@@ -47,6 +47,7 @@ shinyServer(function(input, output, session) {
 	 
 	output$caption <-renderText({getCaption(period(),ticker())})
 	output$subCaption <- renderText({paste("Between: ",getDateStr(tickerData()))})
+	
 #to get the upper ylim use x<-par("usr"); x[4]
 output$drawdownPlot <- renderPlot({
 	chart.Drawdown(cbind(clcl(),clopB(),modelB()), main="Drawdown", legend.loc="topleft", colorset=c(8,1,3), ylim=theYlim() )})	
