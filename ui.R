@@ -2,7 +2,7 @@
 #library(shinyIncubator)
 library(shiny)
 library(ggplot2)
-dow <- c("Mon","Tue", "Wed","Thu","Fri")
+dow <<- c("Mon","Tue", "Wed","Thu","Fri")
 shinyUI(fluidPage(
 	title = "Trade Modeling",
 
@@ -23,17 +23,24 @@ shinyUI(fluidPage(
    		),
     column(4, offset=1,
     	h4("Time Period"),
-   		dateRangeInput("dateRange", "Date range:", start="2012-01-01", end=NULL, format="yyyy-mm-dd", separator="/",startview="year"),
+   		dateRangeInput("dateRange", "Date range:", start="2015-03-11", end=NULL, format="yyyy-mm-dd", separator="/",startview="year"),
 		checkboxGroupInput("keepDays", "days to keep", dow, selected=dow, inline =T),
+		checkboxGroupInput("dontSellDays", "days don't sell on open", dow, selected=dow, inline =F),
 		radioButtons("graphType",label="",
         choices = list("cummulative return" = "cumm", "drawdown" = "draw"),selected = "cumm")),
 	column(3, offset=1,
-		h4("Model"),
-		checkboxInput("downDayNoNight", "up day buy night",  value=F),
-		checkboxInput("upDayNoNight","down day buy night",value=F),
-		checkboxInput("upNightKeepDay","up night, keep day", value=F),
-		checkboxInput("downNightKeepDay","down night, keep day", value=F),
-		checkboxInput("sellDay","buy night, sell day",value=F)
+		h4("Models"),
+		checkboxInput("bN","1 nights", value=T),
+		h6("reversal models"),
+		checkboxInput("dNbD","2 hold days after bad nights", value=F),
+		checkboxInput("uDnN","3 nights only after bad days",value=F),
+		h6("momentum models"),
+		checkboxInput("uNbD","4 hold days after good nights", value=F),
+		checkboxInput("uDbN", "5 nights only after good days",  value=F),
+		h6("short"),
+		checkboxInput("bNsD","6 short days",value=F),
+		h6("debug"),
+		checkboxInput("debug","debug", value=F)
 		)
 	)
 ))
