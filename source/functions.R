@@ -10,7 +10,7 @@ getylim <- function(x){
  	if (is.na(x))
  		x <- NULL
  	else
-		x <-  c(-.5,x)
+		x <-  c(1,x)
 	if (doDebug) cat(x)
 	return(x)
 	}
@@ -42,6 +42,12 @@ ROCCl <- function(x){
 	xx <- ROC(Cl(x))
 	colnames(xx) <- "NormalROC"
  	return(xx)
+}
+buyAndHold <- function(x){
+	if (doDebug) cat("buyAndHold\n")
+	xx <- ROCCl(x)
+	colnames(xx) <- "buyAndHold"
+	return(xx)
 }
 
 dayOnly <- function(x){
@@ -101,6 +107,13 @@ keepDaysF<- function(x, keepDays){
 	else
 		xx <- NULL	
 	return(xx)
+}
+
+daysToKeep <- function(tickerData, dontSellDays){
+	if(doDebug) cat("dontSellDays\n")
+	days <- OpCl(tickerData)
+	days[!format(index(days), "%a") %in% dontSellDays] <- 0
+	return(days)	
 }
 ######################################
 ClCl <- function(x, logOrArith="log") {

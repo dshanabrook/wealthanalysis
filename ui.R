@@ -25,7 +25,7 @@ shinyUI(fluidPage(
     	h4("Time Period"),
    		dateRangeInput("dateRange", "Date range:", start="2015-03-11", end=NULL, format="yyyy-mm-dd", separator="/",startview="year"),
 		checkboxGroupInput("keepDays", "days to keep", dow, selected=dow, inline =T),
-		checkboxGroupInput("dontSellDays", "days don't sell on open", dow, selected=dow, inline =F),
+		checkboxGroupInput("dontSellDays", "days don't sell on open", dow, selected="", inline =T),
 		radioButtons("graphType",label="",
         choices = list("cummulative return" = "cumm", "drawdown" = "draw"),selected = "cumm")),
 	column(3, offset=1,

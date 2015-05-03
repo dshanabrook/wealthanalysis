@@ -15,7 +15,7 @@ cost <<- 0.00
 useWealth <- T
 Sys.setenv(TZ='EST')
 keepDays <- c("Mon","Tue","Wed","Thu","Fri")
-
+dontSellDays <- c("Mon")
 dateRange <- c("2015-03-01","2015-04-22")
 tickerData <- getTickerData(ticker, dateRange,yearsBack)
 modelNames <<- c('m1_buyNights',"m2_buyDayReversal", "m3_buyNightReversal", "m4_keepDayMomentum", "m5_buyNightMomentum", "m6_buyNightsSellDays")
@@ -24,6 +24,8 @@ modelNames <<- c('m1_buyNights',"m2_buyDayReversal", "m3_buyNightReversal", "m4_
 	m_b <- ROCCl(tickerData)
 
 	m_bN <-  clop
+	m_bNMod <-  clop + daysToKeep(tickerData,dontSellDays)
+
 	m_dNbD <- dNbD(tickerData, clop)			
 	m_uDnN <- uDnN(tickerData, clop)						
 	m_uNbD <- uNbD(tickerData,clop)			
