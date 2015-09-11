@@ -1,0 +1,12 @@
+
+.Rapp.history
+
+.Rapp.history
+
+.RData
+
+*.dcf
+
+*.history
+
+shinyapps/bravo/wealthanalysis.dcf

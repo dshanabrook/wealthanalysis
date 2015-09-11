@@ -8,12 +8,6 @@ shinyUI(fluidPage(
 
 	fluidRow(
 	hr(),
-#	column(6,
-		# h3(textOutput("caption"))
-		# ),
-	# column(6,
-		# h5(textOutput("subCaption"))
-		# ),
 	plotOutput("thePlot"),
 	column(3,
 		h4("Stock"),
@@ -42,6 +36,7 @@ shinyUI(fluidPage(
 		h6("debug"),
 		checkboxInput("debug","debug", value=F)
 		)
+#	,tableOutput("rawData")
 	)
 ))
   		 # helpText("Models 1) buy and hold, 2) hold only at night (buy close, sell open) 3) momentum, if it goes up at night, don't sell that open.  4) reversion, if it goes down at night, don't sell at open")

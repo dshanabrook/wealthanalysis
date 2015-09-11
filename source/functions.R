@@ -1,7 +1,15 @@
 getTestData <- function(){
 	#data(sample_matrix)
 	#x <- as.xts(sample_matrix, descr='my new xts object')
-	x <- xts(cbind(Open=1:40, Close=2:41), order=Sys.Date() + 1:40)
+	#all at night, up then down
+	#first 7 days up 1, nights up .5
+	open <- seq(1.0, 1.9, by=0.15)
+	close <- open + 0.1
+	#opposite *2
+	open2 <- seq(open[7], 0.82, by=-0.18)
+	close2 <- open2 - 0.1
+	open <- c(open,open2); close <- c(close,close2)
+	x <- xts(cbind(Open=open, Close=close), order=Sys.Date() + 0:(length(open)-1))
 	#xx <- keepDaysF(x,c("Mon","Tue", "Wed","Thu","Fri"))
 	return(x)	
 }
@@ -37,65 +45,50 @@ getTickerData <- function(ticker="AAPL",dateRange, yearsBack=0.1){
 	 return(tickerData)	
 }
 
-ROCCl <- function(x){
-	if(doDebug) cat("ROCCl\n")
-	xx <- ROC(Cl(x))
-	colnames(xx) <- "NormalROC"
- 	return(xx)
-}
-buyAndHold <- function(x){
+
+ClCl <- function(x){
 	if (doDebug) cat("buyAndHold\n")
-	xx <- ROCCl(x)
+	xx <- ROC(Cl(x))
 	colnames(xx) <- "buyAndHold"
 	return(xx)
 }
 
-dayOnly <- function(x){
-	if (doDebug) cat("ROCClAlt\n")
-	xx <- opcl(x)
-	colnames(xx) <- "NormalROCALT"
-	return(xx)
-}
-dNbD <- function(data, model){
+dNbD <- function(days, nights){
 	if(doDebug) cat("dNbD: 2 hold days after bad nights\n")
-	day <- OpCl(data)
-	badN <- model<0
-	model[badN] <-  model[badN] + day[badN]
-	colnames(model) <- modelNames[2]
-	return(model)
+	badN <- nights<0
+	nights[badN] <-  nights[badN] + days[badN]
+	colnames(nights) <- modelNames[2]
+	return(nights)
 }
 #remove nights after good day (reverse to mean)
-uDnN <- function(data, model){
+uDnN <- function(data, nights){
 	if(doDebug) cat("uDnN:3 nights only after bad days\n")
 	day <- lag(OpCl(data))
-	model[day>0] <-  0
-	colnames(model) <- modelNames[3]
-	return(model)
+	nights[day>0] <-  0
+	colnames(nights) <- modelNames[3]
+	return(nights)
 }
 
 #good night buy day (forward momentum)
-uNbD <- function(data, model){
+uNbD <- function(days, nights){
 	if(doDebug) cat("uNbD:4 hold days after good nights\n")
-	day <- OpCl(data)
-	goodN <- model>0
-	model[goodN] <-  model[goodN] + day[goodN]
-	colnames(model) <- modelNames[4]
-	return(model)
+	goodN <- nights>0
+	nights[goodN] <-  nights[goodN] + days[goodN]
+	colnames(nights) <- modelNames[4]
+	return(nights)
 }
 
-uDbN <- function(data, model){
+uDbN <- function(data, nights){
 	if(doDebug) cat("uDbN:5 nights only after good days\n")
 	day <- lag(OpCl(data))
-	model[day<0] <-  0
-	colnames(model) <- modelNames[5]
-	return(model)
+	nights[day<0] <-  0
+	colnames(nights) <- modelNames[5]
+	return(nights)
 }
 
-bNsD <- function(data, night){
+bNsD <- function(days, nights){
 	if(doDebug) cat("bNsD: 6 short days\n")
-	day <- OpCl(data)
-	night <- ClOp(data)
-	model <- night - day
+	model <- nights - days
 	colnames(model) <- modelNames[6]
 	return(model)
 }
@@ -109,14 +102,15 @@ keepDaysF<- function(x, keepDays){
 	return(xx)
 }
 
-daysToKeep <- function(tickerData, dontSellDays){
+daysToKeep <- function(days, nights, dontSellDays){
 	if(doDebug) cat("dontSellDays\n")
-	days <- OpCl(tickerData)
 	days[!format(index(days), "%a") %in% dontSellDays] <- 0
-	return(days)	
+	model <- days + nights
+	colnames(model) <- modelNames[7]
+	return(model)	
 }
 ######################################
-ClCl <- function(x, logOrArith="log") {
+ClCl <- function(x, cost=0, logOrArith="log") {
 	if(doDebug) cat("ClCl\n")
 	xx <- Delt(Lag(Cl(x)),Cl(x)-cost, type=logOrArith)
 	colnames(xx) <- "CloseToClose"
