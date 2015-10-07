@@ -41,6 +41,7 @@ getTickerData <- function(ticker="AAPL",dateRange, yearsBack=0.1){
 	Sys.setenv(TZ='UTC');
 	theDaysBack <- yearsBack*251
 	 getSymbols(ticker,src="yahoo",from=dateRange[1], to=dateRange[2])
+	 ticker <- gsub("\\^","",ticker)
 	 tickerData <- adjustOHLC(get(ticker), symbol.name=ticker)
 	 return(tickerData)	
 }

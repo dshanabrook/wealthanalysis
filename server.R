@@ -16,6 +16,7 @@ useWealth <<- T
 Sys.setenv(TZ='EST')
 shinyServer(function(input, output, session) {
 	ticker <- reactive({toupper(input$ticker)})
+	name <- reactive(paste(getQuote(ticker(), what=yahooQF("Name"))[,2]))
 	period <- reactive({input$period})
 	yearsBack <- reactive({as.numeric(input$yearsBack)})
 	dateRange <- reactive({input$dateRange})
@@ -61,8 +62,8 @@ shinyServer(function(input, output, session) {
 output$thePlot <- renderPlot({
 	gc()
 	switch(graphType(),
-		"cumm" = chart.CumReturns(models(), wealth.index=useWealth, main="Cummulative return", legend.loc="topleft", colorset=rainbow(8), ylim=theYlim()),
-		"draw" = chart.Drawdown(models(), main="Drawdown", legend.loc="topleft", colorset=rainbow(9)))
+		"cumm" = chart.CumReturns(models(), wealth.index=useWealth, main=paste(name(),"Cummulative return"), legend.loc="topleft", colorset=rainbow(8), ylim=theYlim()),
+		"draw" = chart.Drawdown(models(), main=paste(name(),"Drawdown"), legend.loc="topleft", colorset=rainbow(9)))
 	})
 })
 
