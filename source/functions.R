@@ -100,6 +100,8 @@ keepDaysF<- function(x, keepDays){
 		xx <- x[format(index(x), "%a") %in% keepDays]
 	else
 		xx <- NULL	
+			colnames(xx) <- "day of week model"
+
 	return(xx)
 }
 
@@ -114,7 +116,7 @@ daysToKeep <- function(days, nights, dontSellDays){
 ClCl <- function(x, cost=0, logOrArith="log") {
 	if(doDebug) cat("ClCl\n")
 	xx <- Delt(Lag(Cl(x)),Cl(x)-cost, type=logOrArith)
-	colnames(xx) <- "CloseToClose"
+	colnames(xx) <- "Buy And Hold"
 	return(xx)
 }
 
