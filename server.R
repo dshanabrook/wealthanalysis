@@ -1,5 +1,4 @@
-#cef analysis 
-#use abbyy finereader to get the data from the pdf.  specify the table and output.  should work ok
+
 rm(list=ls())
 library(shiny)
 library(quantmod)
@@ -7,7 +6,7 @@ library(ggplot2)
 library(PerformanceAnalytics)
 library(RColorBrewer)#colorset=brewer.pal(9, "BrBG")
 require(reshape2)
-#setwd("~/shinyapps/"); runApp("wealthanalysis")
+#setwd("~/shinyapps/"); runApp("wealthanalysis");setwd("wealthAnalysis")
 source("source/functions.R", local=TRUE)
 modelNames <<- c('m1_buyNights',"m2_buyDayReversal", "m3_reversal","m4_keepDayMomentum", "m5_momentum","m6_shortDays",'m7_someDays')
 modelActions <- c( "m_bN","m_dNbD", "m_dDbN", "m_uNbD", "m_uDbN", "m_sD")		 
@@ -32,7 +31,7 @@ shinyServer(function(input, output, session) {
 	nights <- reactive({ClOp(tickerData(), cost())})
 	days <- reactive({OpCl(tickerData())})
 	
-	m_b <- reactive({ClCl(tickerData())})	
+	m_b <- reactive({ClCl2(tickerData())})	
 	m_bN <-  reactive({if (input$bN)
 		nights()			else NULL})
 	m_bNSomeD <- reactive({if (!is.null(input$dontSellDays))

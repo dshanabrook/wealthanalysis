@@ -47,7 +47,7 @@ getTickerData <- function(ticker="AAPL",dateRange, yearsBack=0.1){
 }
 
 
-ClCl <- function(x){
+ClCl2 <- function(x){
 	if (doDebug) cat("buyAndHold\n")
 	xx <- ROC(Cl(x))
 	colnames(xx) <- "buyAndHold"
